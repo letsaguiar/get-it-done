@@ -1,14 +1,14 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import App from "./app/layout";
-import Home from "./app";
+import ListingView from "./app/listing";
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		Component: App,
 		children: [
-			{ index: true, Component: Home}
+			{ index: true, Component: ListingView }
 		]
 	}
 ])

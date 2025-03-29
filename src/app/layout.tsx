@@ -1,5 +1,6 @@
 import DarkToogle from "@/components/dark-toggle/DarkToggle";
-import React, { useState } from "react";
+import { useUserPreferencesStore } from "@/stores/user-preferences.store";
+import React from "react";
 import { Outlet } from "react-router";
 
 function DarkModeWrapper({ enabled, children }: {
@@ -25,7 +26,8 @@ function ContentAlignerWrapper({ children }: {
 }
 
 export default function App() {
-  const [isDarkModeEnabled, setDarkMode] = useState<boolean>(false);
+  const isDarkModeEnabled = useUserPreferencesStore(state => state.darkMode);
+  const toggleDarkMode = useUserPreferencesStore(state => state.toggleDarkMode);
 
   return (
     <DarkModeWrapper enabled={isDarkModeEnabled}>
@@ -35,8 +37,4 @@ export default function App() {
       </ContentAlignerWrapper>
     </DarkModeWrapper>
   )
-
-  function toggleDarkMode() {
-    setDarkMode(!isDarkModeEnabled);
-  }
 }

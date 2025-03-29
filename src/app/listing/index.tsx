@@ -1,3 +1,4 @@
+import TaskInput from "@/components/task-input/TaskInput";
 import {
 	Card,
 	CardContent,
@@ -9,6 +10,12 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+function AnimatedTaskInput() {
+	return <>
+		<TaskInput label="foo" placeholder="boo" deleteButton editButton />
+	</>
+}
+
 export default function ListingView() {
 	const { t } = useTranslation('listing-view');
 
@@ -19,7 +26,7 @@ export default function ListingView() {
 				<CardDescription>{t('subtitle')}</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<p>Card Content</p>
+				<AnimatedTaskInput />
 			</CardContent>
 			<CardFooter>
 				<p>Card Footer</p>

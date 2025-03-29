@@ -7,12 +7,20 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { useTaskStore } from "@/stores/task.store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
 function AnimatedTaskInput() {
+	const commitNewTask = useTaskStore(state => state.addOne);
+
 	return <>
-		<TaskInput label="foo" placeholder="boo" deleteButton editButton />
+		<
+			TaskInput
+			placeholder="A descriptive task name..."
+			deleteButton
+			onDelete={() => commitNewTask({name: 'foo'})}
+		/>
 	</>
 }
 

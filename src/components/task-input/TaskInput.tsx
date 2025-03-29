@@ -8,18 +8,22 @@ export default function TaskInput({
 	placeholder,
 	onChange,
 	deleteButton,
+	deleteButtonDisabled,
 	onDelete,
 	disabled,
 	editButton,
+	editButtonDisabled,
 	onEdit,
 }: {
 	label?: string,
 	placeholder?: string,
 	onChange?: React.ChangeEventHandler<HTMLInputElement>
 	deleteButton?: boolean,
+	deleteButtonDisabled?: boolean,
 	onDelete?: React.MouseEventHandler<HTMLButtonElement>
 	disabled?: boolean,
 	editButton?: boolean,
+	editButtonDisabled?: boolean,
 	onEdit?: React.MouseEventHandler<HTMLButtonElement>
 }) {
 	return <>
@@ -40,6 +44,7 @@ export default function TaskInput({
 					Button
 					variant='destructive'
 					onClick={onDelete}
+					disabled={deleteButtonDisabled}
 				>
 					<Trash />
 				</Button>
@@ -49,6 +54,7 @@ export default function TaskInput({
 					Button
 					variant='outline'
 					onClick={onEdit}
+					disabled={editButtonDisabled}
 				>
 					<Pencil />
 				</Button>

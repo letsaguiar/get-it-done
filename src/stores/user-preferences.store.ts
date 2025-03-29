@@ -13,16 +13,16 @@ type Actions = {
 
 export const useUserPreferencesStore = create<State & Actions>((set, get) => ({
 	darkMode: false,
+	toggleDarkMode: () => {
+		set(state => ({ darkMode: !state.darkMode }));
+		get().commit();
+	},
 	commit: () => {
 		const data: State = {
 			darkMode: get().darkMode
 		};
 
 		localStorage.setItem(Store, JSON.stringify(data));
-	},
-	toggleDarkMode: () => {
-		set(state => ({ darkMode: !state.darkMode }));
-		get().commit();
 	},
 	...JSON.parse(localStorage.getItem(Store) || '{}')
 }))

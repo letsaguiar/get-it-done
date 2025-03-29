@@ -8,7 +8,7 @@ const router = createBrowserRouter([
 		path: '/',
 		Component: App,
 		children: [
-			{ index: true, Component: ListingView }
+			{ path: '/listing', Component: ListingView }
 		]
 	}
 ])

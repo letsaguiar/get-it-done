@@ -2,11 +2,13 @@ import { Pencil, Trash } from "lucide-react"
 import React from "react"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
+import { Label } from "../ui/label"
 
 export default function TaskInput({
+	value,
 	label,
 	placeholder,
-	onChange,
+	onValueChange,
 	deleteButton,
 	deleteButtonDisabled,
 	onDelete,
@@ -15,9 +17,10 @@ export default function TaskInput({
 	editButtonDisabled,
 	onEdit,
 }: {
+	value?: string,
+	onValueChange?: React.ChangeEventHandler<HTMLInputElement>
 	label?: string,
 	placeholder?: string,
-	onChange?: React.ChangeEventHandler<HTMLInputElement>
 	deleteButton?: boolean,
 	deleteButtonDisabled?: boolean,
 	onDelete?: React.MouseEventHandler<HTMLButtonElement>
@@ -28,16 +31,15 @@ export default function TaskInput({
 }) {
 	return <>
 		{label &&
-			<div className="text-sm font-bold mb-1">
-				<span>{label}</span>
-			</div>
+			<Label>{label}</Label>
 		}
 		<div className="w-full flex flex-row justify-between align-middle gap-2">
 			<
 				Input
 				disabled={disabled}
 				placeholder={placeholder}
-				onChange={onChange}
+				onChange={onValueChange}
+				value={value}
 			/>
 			{deleteButton &&
 				<
@@ -52,7 +54,7 @@ export default function TaskInput({
 			{editButton &&
 				<
 					Button
-					variant='outline'
+					variant='secondary'
 					onClick={onEdit}
 					disabled={editButtonDisabled}
 				>

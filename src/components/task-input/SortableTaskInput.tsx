@@ -29,8 +29,8 @@ export function SortableTaskInput(props: {
 			<div className='w-full flex flex-row justify-between align-middle'>
 				<
 					Button
-					variant='secondary'
 					className='rounded-r-none'
+					size={'lg'}
 				>
 					<Grip />
 				</Button>
@@ -38,7 +38,7 @@ export function SortableTaskInput(props: {
 					Input
 					disabled={true}
 					value={value}
-					className='rounded-l-none'
+					className='rounded-l-none h-10'
 				/>
 			</div>
 		</div>

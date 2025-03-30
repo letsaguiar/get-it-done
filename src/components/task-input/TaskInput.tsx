@@ -40,6 +40,7 @@ export default function TaskInput({
 				placeholder={placeholder}
 				onChange={onValueChange}
 				value={value}
+				className="h-10"
 			/>
 			{deleteButton &&
 				<
@@ -47,6 +48,7 @@ export default function TaskInput({
 					variant='destructive'
 					onClick={onDelete}
 					disabled={deleteButtonDisabled}
+					size='lg'
 				>
 					<Trash />
 				</Button>
@@ -57,6 +59,7 @@ export default function TaskInput({
 					variant='secondary'
 					onClick={onEdit}
 					disabled={editButtonDisabled}
+					size='lg'
 				>
 					<Pencil />
 				</Button>

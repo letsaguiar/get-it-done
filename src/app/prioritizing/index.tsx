@@ -95,14 +95,14 @@ export default function PrioritizingView() {
         <div className="w-full flex flex-row align-middle justify-between">
           <
             Button
-            variant='secondary'
+            variant='outline'
             onClick={back}
           >
             <span>Back</span>
           </Button>
           <
             Button
-            variant='outline'
+            variant='default'
             onClick={next}
           >
             <span>Next</span>

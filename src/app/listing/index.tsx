@@ -60,7 +60,6 @@ export default function ListingView() {
 				<div className="w-full flex flex-row align-middle justify-end">
 					<
 						Button
-						variant='outline'
 						onClick={next}
 					>
 						<span>Next</span>

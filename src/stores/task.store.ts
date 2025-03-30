@@ -4,11 +4,11 @@ import { create } from 'zustand';
 
 const Store = 'Task'
 
-const TaskModel = z.object({
+export const TaskModel = z.object({
 	uuid: z.string(),
 	name: z.string(),
 })
-type Task = z.infer<typeof TaskModel>
+export type Task = z.infer<typeof TaskModel>
 
 type State = {
 	tasks: Task[];
@@ -16,6 +16,7 @@ type State = {
 
 type Actions = {
 	addOne: (task: Omit<Task, 'uuid'>) => void;
+	addMany: (tasks: Omit<Task, 'uuid'>[]) => void;
 	commit: () => void;
 }
 
@@ -24,6 +25,11 @@ export const useTaskStore = create<State & Actions>((set, get) => ({
 	addOne(data) {
 		const task: Task = { uuid: v4(), ...data };
 		set(state => ({ tasks: [...state.tasks, task] }));
+		get().commit();
+	},
+	addMany(data) {
+		const tasks: Task[] = data.map(task => ({ uuid: v4(), ...task }));
+		set(state => ({ tasks: [...state.tasks, ...tasks] }))
 		get().commit();
 	},
 	commit: () => {

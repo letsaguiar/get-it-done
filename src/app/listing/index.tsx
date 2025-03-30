@@ -61,7 +61,7 @@ export default function ListingView() {
 					<
 						Button
 						variant='outline'
-						onClick={onSave}
+						onClick={next}
 					>
 						<span>Next</span>
 					</Button>
@@ -92,7 +92,7 @@ export default function ListingView() {
 		}
 	}
 
-	function onSave() {
+	function next() {
 		for (const task of tasks) {
 			commitNewTask({ name: task });
 		}

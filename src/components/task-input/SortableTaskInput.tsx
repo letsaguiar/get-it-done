@@ -1,23 +1,15 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Grip } from 'lucide-react';
 import React from 'react';
-import TaskInput from './TaskInput';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
-export function SortableItem(props: {
+export function SortableTaskInput(props: {
 	id: string,
 	value?: string,
-	onValueChange?: React.ChangeEventHandler<HTMLInputElement>
-	label?: string,
-	placeholder?: string,
-	deleteButton?: boolean,
-	deleteButtonDisabled?: boolean,
-	onDelete?: React.MouseEventHandler<HTMLButtonElement>
-	disabled?: boolean,
-	editButton?: boolean,
-	editButtonDisabled?: boolean,
-	onEdit?: React.MouseEventHandler<HTMLButtonElement>
 }) {
-	const { id, ...rest } = props;
+	const { id, value } = props;
 
 	const {
 		attributes,
@@ -34,7 +26,21 @@ export function SortableItem(props: {
 
 	return (
 		<div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-			<TaskInput {...rest} />
+			<div className='w-full flex flex-row justify-between align-middle'>
+				<
+					Button
+					variant='secondary'
+					className='rounded-r-none'
+				>
+					<Grip />
+				</Button>
+				<
+					Input
+					disabled={true}
+					value={value}
+					className='rounded-l-none'
+				/>
+			</div>
 		</div>
 	);
 }

@@ -1,3 +1,4 @@
+import { Theme } from "@/components/theme-provider/ThemeProvider";
 import { create } from "zustand";
 
 const Store = "UserPreference"
@@ -7,14 +8,20 @@ type State = {
 }
 
 type Actions = {
-	toggleDarkMode: () => void;
+	theme: Theme;
+	toggleTheme: () => void;
 	commit: () => void;
 }
 
 export const useUserPreferencesStore = create<State & Actions>((set, get) => ({
-	darkMode: false,
-	toggleDarkMode: () => {
-		set(state => ({ darkMode: !state.darkMode }));
+	theme: 'dark',
+	toggleTheme() {
+		const toggleMap: Record<Theme, Theme> = {
+			'dark': 'light',
+			'light': 'dark'
+		};
+
+		set(state => ({ theme: toggleMap[state.theme] }))
 		get().commit();
 	},
 	commit: () => {

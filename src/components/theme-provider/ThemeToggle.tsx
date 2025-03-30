@@ -1,15 +1,16 @@
 import { Moon } from "lucide-react";
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import { Button } from "../ui/button";
+import { useTheme } from "./ThemeProvider";
 
-export default function DarkToggle({ onClick }: {
-	onClick: MouseEventHandler<HTMLButtonElement>;
-}) {
+export default function ThemeToggle() {
+	const { toggleTheme } = useTheme();
+
 	return <>
 		<div className="fixed top-0 right-0 p-5 md:p-7 lg:p-9">
 			<
 				Button
-				onClick={onClick}
+				onClick={toggleTheme}
 			>
 				<Moon />
 			</Button>

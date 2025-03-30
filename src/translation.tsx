@@ -6,6 +6,7 @@ const resources = (() => {
 	const data: Record<string, any> = {}
 
 	for (const [key, value] of Object.entries(translations)) {
+		console.log(key, value)
 		let [language, namespace] = key.split('/').slice(2);
 		namespace = namespace.replace('.json', '');
 

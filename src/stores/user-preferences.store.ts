@@ -1,35 +1,26 @@
-import { Theme } from "@/components/theme-provider/ThemeProvider";
-import { create } from "zustand";
+import { IUserPreferencesModel, UserPreferencesModel } from "@/models/user-preferences.model";
+import { v4 } from "uuid";
+import { createObjectStore } from "./constructs/object.store";
 
-const Store = "UserPreference"
-
-type State = {
-	darkMode: boolean;
+type Extensions = {
+	toggleColorMode: () => void
 }
 
-type Actions = {
-	theme: Theme;
-	toggleTheme: () => void;
-	commit: () => void;
-}
-
-export const useUserPreferencesStore = create<State & Actions>((set, get) => ({
-	theme: 'dark',
-	toggleTheme() {
-		const toggleMap: Record<Theme, Theme> = {
-			'dark': 'light',
-			'light': 'dark'
-		};
-
-		set(state => ({ theme: toggleMap[state.theme] }))
-		get().commit();
+export const useUserPreferencesStore = createObjectStore<IUserPreferencesModel, Extensions>({
+	name: 'user-preferences',
+	schema: UserPreferencesModel,
+	initialState: {
+		id: v4(),
+		colorMode: 'light',
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	},
-	commit: () => {
-		const data: State = {
-			darkMode: get().darkMode
-		};
-
-		localStorage.setItem(Store, JSON.stringify(data));
-	},
-	...JSON.parse(localStorage.getItem(Store) || '{}')
-}))
+	extensions: (_set, get) => ({
+		toggleColorMode() {
+			if (get().data.colorMode === 'light')
+				get().update({ colorMode: 'dark', updatedAt: new Date() });
+			else
+				get().update({ colorMode: 'light', updatedAt: new Date() });
+		}
+	})
+})

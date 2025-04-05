@@ -10,12 +10,12 @@ type ThemeProviderProps = {
 
 type ThemeProviderState = {
   theme: Theme
-  toggleTheme: () => void;
+  toggleColorMode: () => void;
 }
 
 const initialState: ThemeProviderState = {
   theme: "dark",
-  toggleTheme: () => null,
+  toggleColorMode: () => null,
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
@@ -25,8 +25,8 @@ export function ThemeProvider({
   defaultTheme = "dark",
   ...props
 }: ThemeProviderProps) {
-  const theme = useUserPreferencesStore(s => s.theme);
-  const toggleTheme = useUserPreferencesStore(s => s.toggleTheme);
+  const theme = useUserPreferencesStore(s => s.data.colorMode) || 'light';
+  const toggleColorMode = useUserPreferencesStore(s => s.toggleColorMode);
 
   useEffect(() => {
     const root = window.document.documentElement
@@ -35,7 +35,7 @@ export function ThemeProvider({
   }, [theme])
 
   return (
-    <ThemeProviderContext.Provider {...props} value={{ theme, toggleTheme }}>
+    <ThemeProviderContext.Provider {...props} value={{ theme, toggleColorMode }}>
       {children}
     </ThemeProviderContext.Provider>
   )

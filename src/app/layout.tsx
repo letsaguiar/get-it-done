@@ -1,6 +1,5 @@
 import DarkToogle from "@/components/theme-provider/ThemeToggle";
 import { ThemeProvider } from "@/components/theme-provider/ThemeProvider";
-import React from "react";
 import { Outlet } from "react-router";
 
 export default function App() {

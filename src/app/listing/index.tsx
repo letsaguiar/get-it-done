@@ -12,6 +12,7 @@ import { useTaskStore } from "@/stores/task.store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
+import { v4 } from "uuid";
 
 function AnimatedTaskInput({ tasks, onTaskChange, onTaskDelete }: {
 	tasks: Array<string>,
@@ -39,7 +40,7 @@ function AnimatedTaskInput({ tasks, onTaskChange, onTaskDelete }: {
 export default function ListingView() {
 	const { t } = useTranslation('listing-view');
 	const [tasks, setTasks] = React.useState<Array<string>>([]);
-	const commitNewTask = useTaskStore(state => state.addOne);
+	const taskStore = useTaskStore();
 	const navigate = useNavigate();
 
 	return <>
@@ -93,7 +94,13 @@ export default function ListingView() {
 
 	function next() {
 		for (const task of tasks) {
-			commitNewTask({ name: task });
+			taskStore.add({
+				id: v4(),
+				name: task,
+				priority: 0,
+				createdAt: new Date().toISOString(),
+				updatedAt: new Date().toISOString()
+			});
 		}
 
 		navigate('/prioritizing')

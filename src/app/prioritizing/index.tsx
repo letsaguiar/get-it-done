@@ -1,7 +1,8 @@
 import { SortableTaskInput } from '@/components/task-input/SortableTaskInput';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Task, useTaskStore } from '@/stores/task.store';
+import { ITaskModel } from '@/models/task.model';
+import { useTaskStore } from '@/stores/task.store';
 import {
   closestCenter,
   DndContext,
@@ -26,7 +27,7 @@ function SortableTaskInputBox({
   items,
   setItems
 }: {
-  tasks: Task[],
+  tasks: ITaskModel[],
   items: string[],
   setItems: React.Dispatch<React.SetStateAction<string[]>>
 }) {
@@ -48,12 +49,12 @@ function SortableTaskInputBox({
           items={items}
           strategy={verticalListSortingStrategy}
         >
-          {items.map((uuid) =>
+          {items.map((id) =>
             <
               SortableTaskInput
-              value={tasks.find(t => t.uuid === uuid)?.name}
-              id={uuid}
-              key={uuid}
+              value={tasks.find(t => t.id === id)?.name}
+              id={id}
+              key={id}
             />
           )}
         </SortableContext>
@@ -77,9 +78,8 @@ function SortableTaskInputBox({
 
 export default function PrioritizingView() {
   const { t } = useTranslation('prioritizing-view');
-  const tasks = useTaskStore(s => s.tasks);
-  const updateTask = useTaskStore(s => s.update);
-  const [items, setItems] = React.useState<string[]>(tasks.map(t => t.uuid));
+  const taskStore = useTaskStore();
+  const [items, setItems] = React.useState<string[]>(taskStore.data.map(t => t.id));
   const navigate = useNavigate();
 
   return <>
@@ -89,7 +89,7 @@ export default function PrioritizingView() {
         <CardDescription>{t('subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <SortableTaskInputBox tasks={tasks} items={items} setItems={setItems} />
+        <SortableTaskInputBox tasks={taskStore.data} items={items} setItems={setItems} />
       </CardContent>
       <CardFooter>
         <div className="w-full flex flex-row align-middle justify-between">
@@ -117,7 +117,7 @@ export default function PrioritizingView() {
   }
 
   function next() {
-    items.forEach((uuid, index) => updateTask(uuid, { priority: index }))
+    items.forEach((id, index) => taskStore.update(id, { priority: index }))
     navigate('/pomodoro');
   }
 }

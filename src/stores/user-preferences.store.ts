@@ -12,15 +12,15 @@ export const useUserPreferencesStore = createObjectStore<IUserPreferencesModel, 
 	initialState: {
 		id: v4(),
 		colorMode: 'light',
-		createdAt: new Date(),
-		updatedAt: new Date(),
+		createdAt: new Date().toISOString(),
+		updatedAt: new Date().toISOString(),
 	},
 	extensions: (_set, get) => ({
 		toggleColorMode() {
 			if (get().data.colorMode === 'light')
-				get().update({ colorMode: 'dark', updatedAt: new Date() });
+				get().update({ colorMode: 'dark', updatedAt: new Date().toISOString() });
 			else
-				get().update({ colorMode: 'light', updatedAt: new Date() });
+				get().update({ colorMode: 'light', updatedAt: new Date().toISOString() });
 		}
 	})
 })

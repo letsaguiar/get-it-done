@@ -3,15 +3,18 @@ import { z } from "zod";
 import { create, StoreApi } from "zustand";
 
 type State<T> = {
-  data: T
-}
+  data: T[];
+};
 
 type Actions<T> = {
-  save: (model: T) => void;
-  update: (updates: Partial<T>) => void;
-}
+  add: (item: T) => void;
+  update: (id: string, updates: Partial<T>) => void;
+  remove: (id: string) => void;
+  find: () => T[];
+  findOne: (id: string) => T;
+};
 
-export function createObjectStore<
+export function createListStore<
   Model extends IBaseModel,
   Extensions extends object = {}
 >({
@@ -20,25 +23,25 @@ export function createObjectStore<
   initialState,
   extensions,
 }: {
-  name: string,
-  schema: z.ZodType<Model>,
-  initialState: Model
+  name: string;
+  schema: z.ZodType<Model>;
+  initialState: Model[];
   extensions?: (
     set: (partial: Partial<State<Model> & Actions<Model> & Extensions>, replace?: false) => void,
     get: () => State<Model> & Actions<Model> & Extensions,
     api: StoreApi<State<Model> & Actions<Model> & Extensions>
   ) => Extensions
 }) {
-  const persist = (data: Model) => {
+  const persist = (data: Model[]) => {
     localStorage.setItem(name, JSON.stringify(data));
   };
 
-  const load = (): Model => {
+  const load = (): Model[] => {
     try {
       const raw = localStorage.getItem(name);
       const parsed = JSON.parse(raw || 'null');
-      return schema.parse(parsed);
-    } catch(e) {
+      return (z.array(schema).parse(parsed));
+    } catch {
       persist(initialState);
       return initialState;
     }
@@ -46,14 +49,33 @@ export function createObjectStore<
 
   const baseStateAndActions = (set: any, get: any): State<Model> & Actions<Model> => ({
     data: load(),
-    save(model) {
-      set({ data: model });
-      persist(model);
+
+    add(item) {
+      const updated = [...get().data, item];
+      set({ data: updated });
+      persist(updated);
     },
-    update(updates) {
-      const model = { ...get().data, ...updates };
-      set({ data: model });
-      persist(model);
+
+    update(id, updates) {
+      const updated = get().data.map((item: Model) =>
+        item.id === id ? { ...item, ...updates } : item
+      );
+      set({ data: updated });
+      persist(updated);
+    },
+
+    remove(id) {
+      const updated = get().data.filter((item: Model) => item.id !== id);
+      set({ data: updated });
+      persist(updated);
+    },
+
+    find() {
+      return get().data;
+    },
+
+    findOne(id) {
+      return get().data.filter((item: Model) => item.id === id);
     },
   });
 

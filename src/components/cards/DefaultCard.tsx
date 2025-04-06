@@ -5,11 +5,13 @@ export function DefaultCard({
 	visible = true,
 	title,
 	description,
+	className,
 	children,
 }: {
 	visible?: boolean;
 	title?: string;
 	description?: string;
+	className?: string;
 	children?: React.ReactNode;
 }) {
 	if (!visible)
@@ -35,7 +37,7 @@ export function DefaultCard({
 
 
 	return <>
-		<Card className="w-11/12 md:w-8/12 lg:w-6/12 xl:w-4/12">
+		<Card className={`w-11/12 md:w-8/12 lg:w-6/12 xl:w-4/12 ${className}`}>
 			{(title || description || headerContent) && (
 				<CardHeader>
 					{title && <CardTitle>{title}</CardTitle>}

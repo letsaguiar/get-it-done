@@ -1,6 +1,6 @@
+import { DefaultCard } from '@/components/cards/DefaultCard';
 import { SortableTaskInput } from '@/components/task-input/SortableTaskInput';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ITaskModel } from '@/models/task.model';
 import { useTaskStore } from '@/stores/task.store';
 import {
@@ -83,33 +83,27 @@ export default function PrioritizingView() {
   const navigate = useNavigate();
 
   return <>
-    <Card className="w-11/12 md:w-8/12 lg:w-6/12 xl:w-4/12">
-      <CardHeader>
-        <CardTitle>{t('title')}</CardTitle>
-        <CardDescription>{t('subtitle')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <DefaultCard title={t('title')} description={t('subtitle')}>
+      <DefaultCard.Content>
         <SortableTaskInputBox tasks={taskStore.data} items={items} setItems={setItems} />
-      </CardContent>
-      <CardFooter>
+      </DefaultCard.Content>
+      <DefaultCard.Footer>
         <div className="w-full flex flex-row align-middle justify-between">
-          <
-            Button
+          <Button
             variant='outline'
             onClick={back}
           >
             <span>Back</span>
           </Button>
-          <
-            Button
+          <Button
             variant='default'
             onClick={next}
           >
             <span>Next</span>
           </Button>
         </div>
-      </CardFooter>
-    </Card>
+      </DefaultCard.Footer>
+    </DefaultCard>
   </>
 
   function back() {

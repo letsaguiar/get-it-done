@@ -98,6 +98,8 @@ export default function ListingView() {
 				id: v4(),
 				name: task,
 				priority: 0,
+				completed: false,
+				workedTimeSeconds: 0,
 				createdAt: new Date().toISOString(),
 				updatedAt: new Date().toISOString()
 			});

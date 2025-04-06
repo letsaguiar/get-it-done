@@ -75,7 +75,7 @@ export function createListStore<
     },
 
     findOne(id) {
-      return get().data.filter((item: Model) => item.id === id);
+      return get().data.find((item: Model) => item.id === id);
     },
   });
 

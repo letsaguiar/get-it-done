@@ -40,7 +40,11 @@ const PomodoroConfig = {
 	},
 };
 
-export default function Pomodoro() {
+export default function Pomodoro({
+	onTick
+}: {
+	onTick: (stage: PomodoroStage) => void;
+}) {
 	const { t } = useTranslation("pomodoro-component");
 	const [step, setStep] = useState(0);
 	const [secondsLeft, setSecondsLeft] = useState(
@@ -67,6 +71,8 @@ export default function Pomodoro() {
 					}
 					return prev - 1;
 				});
+
+				onTick(PomodoroConfig.steps[step])
 			}, 1000);
 		}
 
@@ -93,7 +99,6 @@ export default function Pomodoro() {
 				return 0;
 			}
 		});
-		console.log(step)
 	};
 
 

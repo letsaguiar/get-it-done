@@ -1,8 +1,7 @@
-import TaskInput from "@/components/task-input/TaskInput";
-import React from "react";
+import TaskInputBox from "@/components/task-input/TaskInputBox";
 
 export default function Home() {
 	return <>
-		<TaskInput />
+		<TaskInputBox />
 	</>
 }

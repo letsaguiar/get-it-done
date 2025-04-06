@@ -1,5 +1,5 @@
 import { DefaultCard } from "@/components/cards/DefaultCard";
-import TaskInput from "@/components/task-input/TaskInput";
+import TaskInputBox from "@/components/task-input/TaskInputBox";
 import { Button } from "@/components/ui/button";
 import { useTaskStore } from "@/stores/task.store";
 import React from "react";
@@ -16,7 +16,7 @@ function AnimatedTaskInput({ tasks, onTaskChange, onTaskDelete }: {
 		<div className="flex flex-col align-middle justify-center gap-2.5">
 			{[...tasks, ""].map((task, index) => (
 				<
-					TaskInput
+					TaskInputBox
 					value={task}
 					onValueChange={e => onTaskChange(e.target.value, index)}
 					placeholder="A descriptive task name..."

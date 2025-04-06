@@ -1,13 +1,6 @@
+import { DefaultCard } from "@/components/cards/DefaultCard";
 import TaskInput from "@/components/task-input/TaskInput";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
 import { useTaskStore } from "@/stores/task.store";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -44,30 +37,24 @@ export default function ListingView() {
 	const navigate = useNavigate();
 
 	return <>
-		<Card className="w-11/12 md:w-8/12 lg:w-6/12 xl:w-4/12">
-			<CardHeader>
-				<CardTitle>{t('title')}</CardTitle>
-				<CardDescription>{t('subtitle')}</CardDescription>
-			</CardHeader>
-			<CardContent>
-				<
-					AnimatedTaskInput
+		<DefaultCard title={t('title')} description={t('subtitle')}>
+			<DefaultCard.Content>
+				<AnimatedTaskInput
 					tasks={tasks}
 					onTaskChange={onTaskChange}
 					onTaskDelete={onTaskDelete}
 				/>
-			</CardContent>
-			<CardFooter>
+			</DefaultCard.Content>
+			<DefaultCard.Footer>
 				<div className="w-full flex flex-row align-middle justify-end">
-					<
-						Button
+					<Button
 						onClick={next}
 					>
 						<span>Next</span>
 					</Button>
 				</div>
-			</CardFooter>
-		</Card>
+			</DefaultCard.Footer>
+		</DefaultCard>
 	</>
 
 	function onTaskChange(task: string, index: number) {

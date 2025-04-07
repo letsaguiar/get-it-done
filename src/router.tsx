@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import App from "./app/layout";
 import ListingView from "./app/listing";

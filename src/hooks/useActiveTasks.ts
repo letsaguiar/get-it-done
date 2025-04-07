@@ -10,12 +10,15 @@ export function useActiveTasks() {
 		.sort((a, b) => a.priority - b.priority);
 
 	const [tasks, setTasks] = React.useState(activeTasks);
-	
+
 	const moveTask = (oldIndex: number, newIndex: number) => {
 		setTasks((tasks) => {
 			return arrayMove(tasks, oldIndex, newIndex);
 		});
-	}	
+	}
+	const findTask = (id: string) => {
+		return tasks.find(task => task.id === id);
+	}
 	const updateTask = (id: string, model: Partial<ITaskModel>) => {
 		setTasks((tasks) => tasks.map(task =>
 			task.id === id ? { ...task, ...model } : task
@@ -23,5 +26,5 @@ export function useActiveTasks() {
 		taskStore.update(id, model);
 	}
 
-	return { tasks, moveTask, updateTask }
+	return { tasks, findTask, updateTask, moveTask };
 }

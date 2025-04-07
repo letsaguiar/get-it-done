@@ -5,17 +5,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 export default function SelectableTaskInput({
 	label,
 	placeholder,
-	tasks,
-	onSelect
+	tasks = [],
+	defaultValue,
+	onValueChange
 }: {
 	label?: string,
 	placeholder?: string,
-	tasks: ITaskModel[]
-	onSelect: (id: string) => void;
+	tasks?: ITaskModel[],
+	defaultValue?: string,
+	onValueChange?: (id: string) => void,
 }) {
 	return <>
-		<Select onValueChange={onSelect} defaultValue={tasks[0]?.id}>
-			<Label className="mb-3 text-sm">{label}</Label>
+		<Select onValueChange={onValueChange} defaultValue={defaultValue}>
+			{label && <Label className="mb-3 text-sm">{label}</Label>}
 			<SelectTrigger className="w-full">
 				<SelectValue placeholder={placeholder} />
 			</SelectTrigger>

@@ -11,9 +11,10 @@ export const useUserPreferencesStore = createObjectStore<IUserPreferencesModel, 
 	schema: UserPreferencesModel,
 	initialState: {
 		id: v4(),
-		colorMode: 'light',
+		colorMode: 'dark',
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
+		lastAccess: new Date().toISOString()
 	},
 	extensions: (_set, get) => ({
 		toggleColorMode() {

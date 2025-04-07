@@ -1,8 +1,8 @@
 import { DefaultCard } from '@/components/cards/DefaultCard';
 import { SortableTaskInput } from '@/components/task-input/SortableTaskInput';
 import { Button } from '@/components/ui/button';
+import { useActiveTasks } from '@/hooks/useActiveTasks';
 import { ITaskModel } from '@/models/task.model';
-import { useTaskStore } from '@/stores/task.store';
 import {
   closestCenter,
   DndContext,
@@ -13,23 +13,19 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 function SortableTaskInputBox({
   tasks,
-  items,
-  setItems
+  moveTask,
 }: {
   tasks: ITaskModel[],
-  items: string[],
-  setItems: React.Dispatch<React.SetStateAction<string[]>>
+  moveTask: (oldIndex: number, newIndex: number) => void;
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -46,15 +42,15 @@ function SortableTaskInputBox({
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={items}
+          items={tasks.map(t => t.id)}
           strategy={verticalListSortingStrategy}
         >
-          {items.map((id) =>
+          {tasks.map((task) =>
             <
               SortableTaskInput
-              value={tasks.find(t => t.id === id)?.name}
-              id={id}
-              key={id}
+              value={task.name}
+              id={task.id}
+              key={task.id}
             />
           )}
         </SortableContext>
@@ -65,27 +61,31 @@ function SortableTaskInputBox({
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
-    if (over && active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id as string);
-        const newIndex = items.indexOf(over.id as string);
+    const oldIndex = tasks.findIndex(
+      (task) => task.id === active.id
+    );
+    const newIndex = tasks.findIndex(
+      (task) => task.id === over?.id
+    );
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
+    moveTask(oldIndex, newIndex);
   }
 }
 
 export default function PrioritizingView() {
   const { t } = useTranslation('prioritizing-view');
-  const taskStore = useTaskStore();
-  const [items, setItems] = React.useState<string[]>(taskStore.data.map(t => t.id));
   const navigate = useNavigate();
+
+  const {
+    tasks,
+    moveTask,
+    updateTask,
+  } = useActiveTasks();
 
   return <>
     <DefaultCard title={t('title')} description={t('subtitle')}>
       <DefaultCard.Content>
-        <SortableTaskInputBox tasks={taskStore.data} items={items} setItems={setItems} />
+        <SortableTaskInputBox tasks={tasks} moveTask={moveTask} />
       </DefaultCard.Content>
       <DefaultCard.Footer>
         <div className="w-full flex flex-row align-middle justify-between">
@@ -111,7 +111,7 @@ export default function PrioritizingView() {
   }
 
   function next() {
-    items.forEach((id, index) => taskStore.update(id, { priority: index }))
+    tasks.forEach((task, index) => updateTask(task.id, { priority: index }));
     navigate('/pomodoro');
   }
 }

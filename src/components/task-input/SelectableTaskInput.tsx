@@ -6,32 +6,34 @@ export default function SelectableTaskInput({
 	label,
 	placeholder,
 	tasks = [],
-	defaultValue,
+	value,
 	onValueChange
 }: {
 	label?: string,
 	placeholder?: string,
 	tasks?: ITaskModel[],
-	defaultValue?: string,
+	value?: string,
 	onValueChange?: (id: string) => void,
 }) {
 	return <>
-		<Select onValueChange={onValueChange} defaultValue={defaultValue}>
-			{label && <Label className="mb-3 text-sm">{label}</Label>}
-			<SelectTrigger className="w-full">
-				<SelectValue placeholder={placeholder} />
-			</SelectTrigger>
-			<SelectContent>
-				{tasks.map((task) => (
-					<
-						SelectItem
-						value={task.id}
-						key={task.id}
-					>
-						{task.name}
-					</SelectItem>
-				))}
-			</SelectContent>
-		</Select>
+		<div className="w-full">
+			<Select onValueChange={onValueChange} value={value}>
+				{label && <Label className="mb-3 text-sm">{label}</Label>}
+				<SelectTrigger className="w-full !h-10">
+					<SelectValue placeholder={placeholder} />
+				</SelectTrigger>
+				<SelectContent>
+					{tasks.map((task) => (
+						<
+							SelectItem
+							value={task.id}
+							key={task.id}
+						>
+							{task.name}
+						</SelectItem>
+					))}
+				</SelectContent>
+			</Select>
+		</div>
 	</>
 }

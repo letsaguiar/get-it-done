@@ -1,27 +1,30 @@
 import { ITaskModel } from "@/models/task.model";
+import { useTaskStore } from "@/stores/task.store";
 import React from "react";
 import { useActiveTasks } from "./useActiveTasks";
-import { useTaskStore } from "@/stores/task.store";
 
 export function useWorkingTask() {
 	const {
-		findOne,
-		update,
+		findOne: findOneOnStore,
+		update: updateOnStore,
 	} = useTaskStore();
 	const {
-		tasks,
+		tasks: activeTasks,
 	} = useActiveTasks();
 
-	const [workingTask, _setWorkingTask] = React.useState<ITaskModel>(tasks[0]);
+	const [workingTask, _setWorkingTask] = React.useState<ITaskModel>(activeTasks[0]);
 
 	const setWorkingTask = (id: string) =>
-		_setWorkingTask(findOne(id));
+		_setWorkingTask(findOneOnStore(id));
 	const incrementWorkedTime = () =>
 		_setWorkingTask((prev) => {
 			const updated = { ...prev, workedTimeSeconds: prev.workedTimeSeconds + 1 };
-			update(updated.id, updated);
+			updateOnStore(updated.id, updated);
 			return updated;
 		});
+	const completeTask = () => {
+		updateOnStore(workingTask.id, { ...workingTask, completed: true, priority: -1 });
+	};
 
-	return { workingTask, setWorkingTask, incrementWorkedTime };
+	return { workingTask, setWorkingTask, incrementWorkedTime, completeTask };
 }

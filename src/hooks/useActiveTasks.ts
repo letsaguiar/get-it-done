@@ -25,6 +25,9 @@ export function useActiveTasks() {
 		));
 		taskStore.update(id, model);
 	}
+	const removeTask = (id: string) => {
+		setTasks((tasks) => tasks.filter(task => task.id !== id));
+	}
 
-	return { tasks, findTask, updateTask, moveTask };
+	return { tasks, findTask, updateTask, removeTask, moveTask };
 }

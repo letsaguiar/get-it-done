@@ -9,11 +9,11 @@ export default function TaskInputBox({
 	label,
 	placeholder,
 	onValueChange,
-	deleteButton,
+	deleteButton = false,
 	deleteButtonDisabled,
 	onDelete,
 	disabled,
-	editButton,
+	editButton = false,
 	editButtonDisabled,
 	onEdit,
 }: {

@@ -1,8 +1,9 @@
 import { CompleteIconButton } from "@/components/buttons/CompleteIconButton";
 import { DefaultCard } from "@/components/cards/DefaultCard";
-import Pomodoro, { PomodoroStage } from "@/components/pomodoro/Pomodoro";
+import Pomodoro from "@/components/pomodoro/Pomodoro";
 import SelectableTaskInput from "@/components/task-input/SelectableTaskInput";
 import { useActiveTasks } from "@/hooks/useActiveTasks";
+import { TimerStage } from "@/hooks/useTimer";
 import { useWorkingTask } from "@/hooks/useWorkingTask";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -34,7 +35,7 @@ export default function PomodoroView() {
 						label={t('active_task_label')}
 						tasks={tasks}
 						value={workingTask.id}
-						onValueChange={onSelect}
+						onValueChange={(e) => onSelect(e)}
 					/>
 					<CompleteIconButton
 						onClick={onComplete}
@@ -60,8 +61,8 @@ export default function PomodoroView() {
 		removeTask(workingTask.id);
 	}
 
-	function onTick(stage: PomodoroStage) {
-		if (stage === PomodoroStage.POMODORO && workingTask)
+	function onTick(stage: TimerStage) {
+		if (stage === TimerStage.POMODORO && workingTask)
 			incrementWorkedTime();
 	}
 }
